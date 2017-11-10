@@ -1,26 +1,18 @@
 const COLUMNS =7;
 const ROWS = 6;
-const gameboard = Array(COLUMNS).fill(Array(ROWS).fill(0))
+var gameboard = Array(COLUMNS).fill(Array(ROWS).fill(0))
 
-const placeChip = function (c) {
-  var col = gameboard[c]
-  var chipPlaced = false
-  for (var cell = 0; cell < ROWS; cell++) {
-    if (col[cell] === 0 && !chipPlaced) {
-      col[cell] = "X";
-      $(".row"+ cell + " .col" + c).html("X");
-      chipPlaced = true;
-    }
-  }
+const placeChip = function (col) {
+  var chipPlaced = false;
+  gameboard[col][0] = "poop";
+  
 } 
+
+const displayChip = function (row, col) {
+  $(".row"+ row + " .col" + col).html("X");
+}
 
 $(document).ready(function() {
 
-  $('#col0').click(function(event){
-    event.preventDefault(); 
 
-    alert('You clicked that shit');
-
-    placeChip(0);
-  });
 })
