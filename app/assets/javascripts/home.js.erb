@@ -85,11 +85,34 @@ var checkDiagonal = function (row, column) {
   var sym = gameboard[column][row];
   var r = 0;
   var c = 0;
-  return false;
-  // low left to high right
+  var keepCheckingFlag = true;
+  
   for (var i = 0; i < COLUMNS; i++) {
-    for (var j = 0; j < ROWS; j++)
+    for (var j = 0; j < ROWS; j++) {
+      r = j;
+      c = i;
+      while (keepCheckingFlag) {
+        if (gameboard[c][r] === sym) {
+          symbolCount++;
+          if (symbolCount >= 4) {
+            keepCheckingFlag = false;
+            return true;
+          }
+        } else {
+          symbolCount = 0;
+        }
+
+        if (r === ROWS || c === COLUMNS) {
+          keepCheckingFlag = false;
+        } else {
+          r++;
+          c++;
+        }
+      }
+    }
   }
+
+  return false;
 }
 
 var didWin = function(row, column) {
