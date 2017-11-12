@@ -4,73 +4,20 @@
 <div class="game">
   <table>
     <tbody>
-      <tr class="row5">
-        <td class="row5 col0"></td>
-        <td class="row5 col1"></td>
-        <td class="row5 col2"></td>
-        <td class="row5 col3"></td>
-        <td class="row5 col4"></td>
-        <td class="row5 col5"></td>
-        <td class="row5 col6"></td>       
+    <% @rows.times do |r| %>
+      <tr class="row<%= @rows - 1 - r %>">
+      <% @columns.times do |c| %>
+        <td class="row<%= @rows - 1 - r %> col<%= c  %>"></td>
+      <% end %>
       </tr>
-      <tr class="row4">
-        <td class="row4 col0"></td>
-        <td class="row4 col1"></td>
-        <td class="row4 col2"></td>
-        <td class="row4 col3"></td>
-        <td class="row4 col4"></td>
-        <td class="row4 col5"></td>
-        <td class="row4 col6"></td>       
-      </tr>
-      <tr class="row3">
-        <td class="row3 col0"></td>
-        <td class="row3 col1"></td>
-        <td class="row3 col2"></td>
-        <td class="row3 col3"></td>
-        <td class="row3 col4"></td>
-        <td class="row3 col5"></td>
-        <td class="row3 col6"></td>       
-      </tr>
-      <tr class="row2">
-        <td class="row2 col0"></td>
-        <td class="row2 col1"></td>
-        <td class="row2 col2"></td>
-        <td class="row2 col3"></td>
-        <td class="row2 col4"></td>
-        <td class="row2 col5"></td>
-        <td class="row2 col6"></td>       
-      </tr>
-      <tr class="row1">
-        <td class="row1 col0"></td>
-        <td class="row1 col1"></td>
-        <td class="row1 col2"></td>
-        <td class="row1 col3"></td>
-        <td class="row1 col4"></td>
-        <td class="row1 col5"></td>
-        <td class="row1 col6"></td>   
-      </tr>
-      <tr class="row0">
-        <td class="row0 col0"></td>
-        <td class="row0 col1"></td>
-        <td class="row0 col2"></td>
-        <td class="row0 col3"></td>
-        <td class="row0 col4"></td>
-        <td class="row0 col5"></td>
-        <td class="row0 col6"></td>       
-      </tr>
+    <% end %>
     </tbody>
-
     <tfoot>
       <tr>
-        <td><button id="col0" onclick="placeChip(0)">Push</button></td>
-        <td><button id="col1" onclick="placeChip(1)">Push</button></td>
-        <td><button id="col2" onclick="placeChip(2)">Push</button></td>
-        <td><button id="col3" onclick="placeChip(3)">Push</button></td>
-        <td><button id="col4" onclick="placeChip(4)">Push</button></td>
-        <td><button id="col5" onclick="placeChip(5)">Push</button></td>
-        <td><button id="col6" onclick="placeChip(6)">Push</button></td>       
+        <% @columns.times do |c| %>
+          <td><button id="col<%= c %>" onclick="placeChip(<%= c %>)">Push</button></td>
+        <% end %>       
       </tr>
-
     </tfoot>
   </table>
 </div>
