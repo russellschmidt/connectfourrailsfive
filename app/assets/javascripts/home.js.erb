@@ -80,7 +80,7 @@ var checkRow = function (row, column) {
   return false;
 }
 
-var checkDiagonal = function (row, column) {
+var checkDiagonalLowLeftHighRight = function (row, column) {
   var symbolCount = 0;
   var sym = gameboard[column][row];
   var r = 0;
@@ -111,12 +111,17 @@ var checkDiagonal = function (row, column) {
       }
     }
   }
-
   return false;
 }
 
+var checkDiagonalHighLeftLowRight = function (row, column) {
+  return false
+}
+
 var didWin = function(row, column) {
-  if (checkColumn(row, column) || checkRow(row, column) || checkDiagonal(row, column)) {
+  if (checkColumn(row, column) || checkRow(row, column) || 
+        checkDiagonalLowLeftHighRight(row, column) || 
+        checkDiagonalHighLeftLowRight(row, column)) {
     alert("winrar "+ (currentPlayer === 1 ? player1symbol : player2symbol));
     $("tfoot").hide();
     $(".player-turn-panel").hide();
@@ -146,13 +151,13 @@ var replay = function () {
 var endginningMessage = function () {
   if (player1score > player2score) {
     $('.scoreboard').html("<h1>" + player1name + " is the WINRAR</h1>");
-    $('.scoreboard').append("<h3>Final score. "+ player1name + "(" + player1symbol+ ")" + " with " + player1score + " to "+ player2name +" (" + player2symbol+ ")'s" + player2score +"</h3>")
+    $('.scoreboard').append("<h3>Final score. "+ player1name + " (" + player1symbol+ ")" + " with " + player1score + " to "+ player2name +" (" + player2symbol+ ")'s" + player2score +"</h3>")
   } else if (player2score > player1score) {
     $('.scoreboard').html("<h1>" + player2name + " is the WINRAR</h1>");
-    $('.scoreboard').append("<h3>Final score. "+ player2name + "(" + player2symbol+ ")" + " with " + player2score + " to "+ player1name +" (" + player1symbol+ ")'s" + player1score +"</h3>")
+    $('.scoreboard').append("<h3>Final score. "+ player2name + " (" + player2symbol+ ")" + " with " + player2score + " to "+ player1name +" (" + player1symbol+ ")'s" + player1score +"</h3>")
   } else {
     $('.scoreboard').html("<h1>Tie game. boooooo.</h1>")
-    $('.scoreboard').append("<h3>Even at " + player1score + "for (" + player1symbol+ ")" + " to " + player2score + " for (" + player2symbol+ ")" + "</h3>");
+    $('.scoreboard').append("<h3>Even at " + player1score + " for (" + player1symbol+ ")" + " to " + player2score + " for (" + player2symbol+ ")" + "</h3>");
   }
 }
 
