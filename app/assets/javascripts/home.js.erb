@@ -81,7 +81,15 @@ var checkRow = function (row, column) {
 }
 
 var checkDiagonal = function (row, column) {
+  var symbolCount = 0;
+  var sym = gameboard[column][row];
+  var r = 0;
+  var c = 0;
   return false;
+  // low left to high right
+  for (var i = 0; i < COLUMNS; i++) {
+    for (var j = 0; j < ROWS; j++)
+  }
 }
 
 var didWin = function(row, column) {
