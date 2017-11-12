@@ -22,6 +22,7 @@ const player2symbol = "O";
 var placeChip = function(column) {
   var placedChip = false;
   var row = 0;
+  $('.random-message').hide();
   while (!placedChip && row < ROWS) {
     if (gameboard[column][row] === 0) {
       if (currentPlayer === 1) {
@@ -32,7 +33,9 @@ var placeChip = function(column) {
         displayChip(row, column, player2symbol); 
       }
       placedChip = true;
-      nextTurn();
+      if (!didWin(row, column)){
+        nextTurn();
+      }
     } else {
       row++;
     }
@@ -42,6 +45,66 @@ var placeChip = function(column) {
 var displayChip = function (row, col, symbol) {
   $(".row"+ row + " .col" + col).html(symbol);
 }
+
+var checkColumn = function (row, column) {
+  var symbolCount = 0;
+  var sym = gameboard[column][row];
+  for (var i = 0; i < ROWS; i++) {
+    if (gameboard[column][i] === sym) {
+      symbolCount++;
+      if (symbolCount >= 4) {
+        return true;
+      }
+    } else {
+      symbolCount = 0;
+    }
+  }
+  return false;
+}
+
+var didWin = function(row, column) {
+  if (checkColumn(row, column)) {
+    alert("winrar");
+    updateScore();
+  }
+  return false;
+}
+
+var replay = function () {
+  const result = window.confirm("Care to play again?");
+  if (result) {
+    // clear matrix and gameboard
+    for (var i = 0; i < COLUMNS; i++) {
+      for (var j = 0; j < ROWS; j++) {
+        gameboard[i][j]=0;
+        displayChip(j, i, ""); 
+      }
+    }
+    setFirstMover();
+  } else {
+    if (player1score > player2score) {
+      $('.scoreboard').html("<h1>" + player1name + " is the WINRAR</h1>");
+      $('.scoreboard').append("<h3>Final score. "+ player1name + " with " + player1score + " to "+ player2name +"'s " + player2score +"</h3>")
+    } else if (player2score > player1score) {
+      $('.scoreboard').html("<h1>" + player2name + " is the WINRAR</h1>");
+      $('.scoreboard').append("<h3>Final score. "+ player2name + " with " + player2score + " to "+ player1name +"'s " + player1score +"</h3>")
+    } else {
+      $('.scoreboard').html("<h1>Tie game. boooooo.</h1>")
+      $('.scoreboard').append("<h3>Even at " + player1score + " to " + player2score + "</h3>");
+    }
+  }
+}
+
+var updateScore = function() {
+  if (currentPlayer === 1) {
+    player1score++;
+    $('.player-one.player-score').html("Score: " + player1score);
+  } else {
+    player2score++;
+    $('.player-two.player-score').html("Score: " + player2score);
+  }
+  replay();
+} 
 
 var setNames = function() {
   var player1 = $('#player1').val();
@@ -78,7 +141,11 @@ var nextTurn = function () {
 }
 
 var setFirstMover = function () {
-  makeMove(Math.floor(Math.random()*2) + 1)
+  $('.player-turn-panel').append("<h5 class='random-message'>Randomly assigning first player...</h5>");
+  setTimeout(function() {
+    $('.player-turn-panel').append("<h5 class='random-message'>Assigned.</h5>");
+    makeMove(Math.floor(Math.random()*2) + 1)
+  }, 500);
 }
 
 var reallyStartGame = function () {
