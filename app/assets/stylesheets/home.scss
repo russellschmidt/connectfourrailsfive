@@ -6,6 +6,20 @@ section {
   margin: 50px;
 }
 
+.scoreboard {
+  width: 100%;
+
+  .player-score-panel {
+    float: left;
+    width: 20%;
+    margin: auto 10px;
+  }  
+}
+
+.clearfix {
+  clear: both;
+}
+
 .game {
   table {
     background-color: #eee;

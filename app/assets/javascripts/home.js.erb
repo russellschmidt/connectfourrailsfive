@@ -9,6 +9,10 @@ var gameboard = [
                   [0,0,0,0,0,0],
                   [0,0,0,0,0,0]
                 ]
+var player1score = 0;
+var player2score = 0;
+
+// functions
 
 var placeChip = function(column) {
   var placedChip = false;
@@ -28,9 +32,30 @@ var displayChip = function (row, col) {
   $(".row"+ row + " .col" + col).html("X");
 }
 
+var setNames = function() {
+  var player1 = $('#player1').val();
+  var player2 = $('#player2').val();
+  if (!player1 || player1.val === ""){
+    player1 = "Player One";
+  } 
+  if (!player2 || player2 === "") {
+    player2 = "Player Two";
+  }
+  $(".player-one.player-name").html(player1);
+  $(".player-two.player-name").html(player2);
+  $(".player-one.player-score").html("Score: "+player1score);
+  $(".player-two.player-score").html("Score: "+player2score);
+}
+
+var setFirstMover = function () {
+  
+}
+
 var reallyStartGame = function () {
+  setNames();
   $('.game').show();
   $('.player-info').hide();
+  setFirstMover();
 }
 
 var startGame = function () {
