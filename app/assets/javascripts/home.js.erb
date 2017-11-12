@@ -11,6 +11,11 @@ var gameboard = [
                 ]
 var player1score = 0;
 var player2score = 0;
+var player1name = "player1";
+var player2name = "player2";
+var currentPlayer = 0;
+const player1symbol = "X";
+const player2symbol = "O";
 
 // functions
 
@@ -19,17 +24,23 @@ var placeChip = function(column) {
   var row = 0;
   while (!placedChip && row < ROWS) {
     if (gameboard[column][row] === 0) {
-      gameboard[column][row] = "X";
-      displayChip(row, column);
+      if (currentPlayer === 1) {
+        gameboard[column][row] = player1symbol;
+        displayChip(row, column, player1symbol);      
+      } else {
+        gameboard[column][row] = player2symbol;
+        displayChip(row, column, player2symbol); 
+      }
       placedChip = true;
+      nextTurn();
     } else {
       row++;
     }
   }
 }
 
-var displayChip = function (row, col) {
-  $(".row"+ row + " .col" + col).html("X");
+var displayChip = function (row, col, symbol) {
+  $(".row"+ row + " .col" + col).html(symbol);
 }
 
 var setNames = function() {
@@ -41,14 +52,33 @@ var setNames = function() {
   if (!player2 || player2 === "") {
     player2 = "Player Two";
   }
+  player1name = player1;
+  player2name = player2;
   $(".player-one.player-name").html(player1);
   $(".player-two.player-name").html(player2);
   $(".player-one.player-score").html("Score: "+player1score);
   $(".player-two.player-score").html("Score: "+player2score);
 }
 
+var makeMove = function (player) {
+  if(player === 1) {
+    $('.player-turn').html(player1name + "\'s Turn");
+    $('.player-turn').append("<p>You are the " + player1symbol + "</p>");
+    currentPlayer = 1;
+  } else {
+    $('.player-turn').html(player2name + "\'s Turn");
+    $('.player-turn').append("<p>You are the " + player2symbol + "</p>");
+    currentPlayer = 2;
+  }
+}
+
+var nextTurn = function () {
+  currentPlayer = (currentPlayer === 1) ? 2 : 1;
+  makeMove(currentPlayer);
+}
+
 var setFirstMover = function () {
-  
+  makeMove(Math.floor(Math.random()*2) + 1)
 }
 
 var reallyStartGame = function () {
