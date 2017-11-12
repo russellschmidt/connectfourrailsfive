@@ -33,9 +33,11 @@ var placeChip = function(column) {
         displayChip(row, column, player2symbol); 
       }
       placedChip = true;
-      if (!didWin(row, column)){
-        nextTurn();
-      }
+      setTimeout(function() {
+        if (!didWin(row, column)){
+          nextTurn();
+        }
+      }, 125);
     } else {
       row++;
     }
@@ -62,8 +64,24 @@ var checkColumn = function (row, column) {
   return false;
 }
 
+var checkRow = function (row, column) {
+  var symbolCount = 0;
+  var sym = gameboard[column][row];
+  for (var i = 0; i < COLUMNS; i++) {
+    if (gameboard[i][row] === sym) {
+      symbolCount++;
+      if (symbolCount >= 4) {
+        return true;
+      }
+    } else {
+      symbolCount = 0;
+    }
+  }
+  return false;
+}
+
 var didWin = function(row, column) {
-  if (checkColumn(row, column)) {
+  if (checkColumn(row, column) || checkRow(row, column)) {
     alert("winrar");
     updateScore();
   }
