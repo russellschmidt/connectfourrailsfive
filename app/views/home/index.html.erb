@@ -1,23 +1,43 @@
 <h1>Connect Four</h1>
 
-<!-- can I use ruby to draw this using times  -->
-<div class="game">
-  <table>
-    <tbody>
-    <% @rows.times do |r| %>
-      <tr class="row<%= @rows - 1 - r %>">
-      <% @columns.times do |c| %>
-        <td class="row<%= @rows - 1 - r %> col<%= c  %>"></td>
-      <% end %>
-      </tr>
-    <% end %>
-    </tbody>
-    <tfoot>
-      <tr>
+<section>
+  <div class="intro">
+    <h4>Would you like to play a new game?</h4>
+    <button onclick="startGame()">Yes?</button>
+  </div>
+
+  <div class="player-info">
+    <div>
+      <input id="player1" type="text" placeholder="Player One Name"/>
+    </div>
+    <div>
+      <input id="player2" type="text" placeholder="Player Two Name"/>
+    </div>
+    <div>
+      <button onclick="reallyStartGame()">Go!</button>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="game">
+    <table>
+      <tbody>
+      <% @rows.times do |r| %>
+        <tr class="row<%= @rows - 1 - r %>">
         <% @columns.times do |c| %>
-          <td><button id="col<%= c %>" onclick="placeChip(<%= c %>)">Push</button></td>
-        <% end %>       
-      </tr>
-    </tfoot>
-  </table>
-</div>
+          <td class="row<%= @rows - 1 - r %> col<%= c  %>"></td>
+        <% end %>
+        </tr>
+      <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <% @columns.times do |c| %>
+            <td><button id="col<%= c %>" onclick="placeChip(<%= c %>)">Push</button></td>
+          <% end %>       
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</section>
