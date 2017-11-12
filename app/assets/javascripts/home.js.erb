@@ -14,8 +14,8 @@ var player2score = 0;
 var player1name = "player1";
 var player2name = "player2";
 var currentPlayer = 0;
-const player1symbol = "X";
-const player2symbol = "O";
+const player1symbol = "🖕";
+const player2symbol = "😀";
 
 // functions
 
@@ -82,7 +82,9 @@ var checkRow = function (row, column) {
 
 var didWin = function(row, column) {
   if (checkColumn(row, column) || checkRow(row, column)) {
-    alert("winrar");
+    alert("winrar "+ (currentPlayer === 1 ? player1symbol : player2symbol));
+    $("tfoot").hide();
+    $(".player-turn-panel").hide();
     updateScore();
   }
   return false;
@@ -99,17 +101,23 @@ var replay = function () {
       }
     }
     setFirstMover();
+    $("tfoot").show();
+    $(".player-turn-panel").show();
   } else {
-    if (player1score > player2score) {
-      $('.scoreboard').html("<h1>" + player1name + " is the WINRAR</h1>");
-      $('.scoreboard').append("<h3>Final score. "+ player1name + " with " + player1score + " to "+ player2name +"'s " + player2score +"</h3>")
-    } else if (player2score > player1score) {
-      $('.scoreboard').html("<h1>" + player2name + " is the WINRAR</h1>");
-      $('.scoreboard').append("<h3>Final score. "+ player2name + " with " + player2score + " to "+ player1name +"'s " + player1score +"</h3>")
-    } else {
-      $('.scoreboard').html("<h1>Tie game. boooooo.</h1>")
-      $('.scoreboard').append("<h3>Even at " + player1score + " to " + player2score + "</h3>");
-    }
+    endginningMessage()
+  }
+}
+
+var endginningMessage = function () {
+  if (player1score > player2score) {
+    $('.scoreboard').html("<h1>" + player1name + " is the WINRAR</h1>");
+    $('.scoreboard').append("<h3>Final score. "+ player1name + "(" + player1symbol+ ")" + " with " + player1score + " to "+ player2name +"'s " + "(" + player2symbol+ ")" + player2score +"</h3>")
+  } else if (player2score > player1score) {
+    $('.scoreboard').html("<h1>" + player2name + " is the WINRAR</h1>");
+    $('.scoreboard').append("<h3>Final score. "+ player2name + "(" + player2symbol+ ")" + " with " + player2score + " to "+ player1name +"'s " + "(" + player1symbol+ ")" + player1score +"</h3>")
+  } else {
+    $('.scoreboard').html("<h1>Tie game. boooooo.</h1>")
+    $('.scoreboard').append("<h3>Even at " + player1score + "(" + player1symbol+ ")" + " to " + player2score + "(" + player2symbol+ ")" + "</h3>");
   }
 }
 
