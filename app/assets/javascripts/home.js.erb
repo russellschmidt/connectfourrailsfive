@@ -1,250 +1,258 @@
-const COLUMNS = 7;
-const ROWS = 6;
-var gameboard = [
-                  [0,0,0,0,0,0],
-                  [0,0,0,0,0,0],
-                  [0,0,0,0,0,0],
-                  [0,0,0,0,0,0],
-                  [0,0,0,0,0,0],
-                  [0,0,0,0,0,0],
-                  [0,0,0,0,0,0]
-                ]
-var player1score = 0;
-var player2score = 0;
-var player1name = "player1";
-var player2name = "player2";
-var currentPlayer = 0;
-const player1symbol = "🖕";
-const player2symbol = "😀";
+var CONNECT4 = (function(){
+  // vars
+  const COLUMNS = 7;
+  const ROWS = 6;
+  var connect4 = {};
+  var gameboard = [
+                    [0,0,0,0,0,0],
+                    [0,0,0,0,0,0],
+                    [0,0,0,0,0,0],
+                    [0,0,0,0,0,0],
+                    [0,0,0,0,0,0],
+                    [0,0,0,0,0,0],
+                    [0,0,0,0,0,0]
+                  ]
+  var player1score = 0;
+  var player2score = 0;
+  var player1name = "player1";
+  var player2name = "player2";
+  var currentPlayer = 0;
+  const player1symbol = "🖕";
+  const player2symbol = "😀";
 
-// functions
 
-var placeChip = function(column) {
-  var placedChip = false;
-  var row = 0;
-  $('.random-message').hide();
-  while (!placedChip && row < ROWS) {
-    if (gameboard[column][row] === 0) {
-      if (currentPlayer === 1) {
-        gameboard[column][row] = player1symbol;
-        displayChip(row, column, player1symbol);      
-      } else {
-        gameboard[column][row] = player2symbol;
-        displayChip(row, column, player2symbol); 
-      }
-      placedChip = true;
-      setTimeout(function() {
-        if (!didWin(row, column)){
-          nextTurn();
+
+  // functions
+  connect4.placeChip = function(column) {
+    var placedChip = false;
+    var row = 0;
+    $('.random-message').hide();
+    while (!placedChip && row < ROWS) {
+      if (gameboard[column][row] === 0) {
+        if (currentPlayer === 1) {
+          gameboard[column][row] = player1symbol;
+          displayChip(row, column, player1symbol);      
+        } else {
+          gameboard[column][row] = player2symbol;
+          displayChip(row, column, player2symbol); 
         }
-      }, 125);
-    } else {
-      row++;
-    }
-  }
-}
-
-var displayChip = function (row, col, symbol) {
-  $(".row"+ row + " .col" + col).html(symbol);
-}
-
-var checkColumn = function (row, column) {
-  var symbolCount = 0;
-  var sym = gameboard[column][row];
-  for (var i = 0; i < ROWS; i++) {
-    if (gameboard[column][i] === sym) {
-      symbolCount++;
-      if (symbolCount >= 4) {
-        return true;
+        placedChip = true;
+        setTimeout(function() {
+          if (!didWin(row, column)){
+            nextTurn();
+          }
+        }, 125);
+      } else {
+        row++;
       }
-    } else {
-      symbolCount = 0;
     }
   }
-  return false;
-}
 
-var checkRow = function (row, column) {
-  var symbolCount = 0;
-  var sym = gameboard[column][row];
-  for (var i = 0; i < COLUMNS; i++) {
-    if (gameboard[i][row] === sym) {
-      symbolCount++;
-      if (symbolCount >= 4) {
-        return true;
+  function displayChip (row, col, symbol) {
+    $(".row"+ row + " .col" + col).html(symbol);
+  }
+
+  function checkColumn (row, column) {
+    var symbolCount = 0;
+    var sym = gameboard[column][row];
+    for (var i = 0; i < ROWS; i++) {
+      if (gameboard[column][i] === sym) {
+        symbolCount++;
+        if (symbolCount >= 4) {
+          return true;
+        }
+      } else {
+        symbolCount = 0;
       }
-    } else {
-      symbolCount = 0;
     }
-  }
-  return false;
-}
-
-var checkDiagonalLowLeftHighRight = function (row, column) {
-  var r = row;
-  var c = column;
-  var symbolCount = 0;
-  var sym = gameboard[column][row];
-
-  // hit the x or y axis
-  while (r > 0 && c > 0) {
-    r--;
-    c--;
-  }
-  // check the diagonal from the x- or y-intercept
-  while (r < ROWS && c < COLUMNS) {
-    if (gameboard[c][r] === sym) {
-      symbolCount++;
-      if (symbolCount >= 4) {
-        return true;
-      }
-    } else {
-      symbolCount = 0;
-    }
-    r++;
-    c++;
+    return false;
   }
 
-  return false;
-}
-
-var checkDiagonalHighLeftLowRight = function (row, column) {
-  var r = row;
-  var c = column;
-  var symbolCount = 0;
-  var sym = gameboard[column][row];
-  
-  // hit the x or y axis
-  while (r < ROWS && c > -1) {
-    r++;
-    c--;
-  }
-  if (c < 0) {c = 0;} else {c++;}
-  if (r > ROWS) {r = ROWS - 1;} else { r--;}
-
-  // check the diagonal from the y-intercept or x-ceiling
-  while(r > -1 && c < COLUMNS) {
-    if (gameboard[c][r] === sym) {
-      symbolCount++;
-      if (symbolCount >= 4) {
-        return true;
-      }
-    } else {
-      symbolCount = 0;
-    }
-    r--;
-    c++;
-  }
-  return false;
-}
-
-var didWin = function(row, column) {
-  if (checkColumn(row, column) || checkRow(row, column) || 
-        checkDiagonalLowLeftHighRight(row, column) || 
-        checkDiagonalHighLeftLowRight(row, column)) {
-    alert("winrar "+ (currentPlayer === 1 ? player1symbol : player2symbol));
-    $("tfoot").hide();
-    $(".player-turn-panel").hide();
-    updateScore();
-  }
-  return false;
-}
-
-var replay = function () {
-  const result = window.confirm("Care to play again?");
-  if (result) {
-    // clear matrix and gameboard
+  function checkRow (row, column) {
+    var symbolCount = 0;
+    var sym = gameboard[column][row];
     for (var i = 0; i < COLUMNS; i++) {
-      for (var j = 0; j < ROWS; j++) {
-        gameboard[i][j]=0;
-        displayChip(j, i, ""); 
+      if (gameboard[i][row] === sym) {
+        symbolCount++;
+        if (symbolCount >= 4) {
+          return true;
+        }
+      } else {
+        symbolCount = 0;
       }
     }
-    setFirstMover();
-    $("tfoot").show();
-    $(".player-turn-panel").show();
-  } else {
-    endginningMessage()
+    return false;
   }
-}
 
-var endginningMessage = function () {
-  if (player1score > player2score) {
-    $('.scoreboard').html("<h1>" + player1name + " is the WINRAR</h1>");
-    $('.scoreboard').append("<h3>Final score. "+ player1name + " (" + player1symbol+ ")" + " with " + player1score + " to "+ player2name +" (" + player2symbol+ ")'s" + player2score +"</h3>")
-  } else if (player2score > player1score) {
-    $('.scoreboard').html("<h1>" + player2name + " is the WINRAR</h1>");
-    $('.scoreboard').append("<h3>Final score. "+ player2name + " (" + player2symbol+ ")" + " with " + player2score + " to "+ player1name +" (" + player1symbol+ ")'s" + player1score +"</h3>")
-  } else {
-    $('.scoreboard').html("<h1>Tie game. boooooo.</h1>")
-    $('.scoreboard').append("<h3>Even at " + player1score + " for (" + player1symbol+ ")" + " to " + player2score + " for (" + player2symbol+ ")" + "</h3>");
+  function checkDiagonalLowLeftHighRight (row, column) {
+    var r = row;
+    var c = column;
+    var symbolCount = 0;
+    var sym = gameboard[column][row];
+
+    // hit the x or y axis
+    while (r > 0 && c > 0) {
+      r--;
+      c--;
+    }
+    // check the diagonal from the x- or y-intercept
+    while (r < ROWS && c < COLUMNS) {
+      if (gameboard[c][r] === sym) {
+        symbolCount++;
+        if (symbolCount >= 4) {
+          return true;
+        }
+      } else {
+        symbolCount = 0;
+      }
+      r++;
+      c++;
+    }
+
+    return false;
   }
-}
 
-var updateScore = function() {
-  if (currentPlayer === 1) {
-    player1score++;
-    $('.player-one.player-score').html("Score: " + player1score);
-  } else {
-    player2score++;
-    $('.player-two.player-score').html("Score: " + player2score);
+  function checkDiagonalHighLeftLowRight (row, column) {
+    var r = row;
+    var c = column;
+    var symbolCount = 0;
+    var sym = gameboard[column][row];
+    
+    // hit the x or y axis
+    while (r < ROWS && c > -1) {
+      r++;
+      c--;
+    }
+    if (c < 0) {c = 0;} else {c++;}
+    if (r > ROWS) {r = ROWS - 1;} else { r--;}
+
+    // check the diagonal from the y-intercept or x-ceiling
+    while(r > -1 && c < COLUMNS) {
+      if (gameboard[c][r] === sym) {
+        symbolCount++;
+        if (symbolCount >= 4) {
+          return true;
+        }
+      } else {
+        symbolCount = 0;
+      }
+      r--;
+      c++;
+    }
+    return false;
   }
-  replay();
-} 
 
-var setNames = function() {
-  var player1 = $('#player1').val();
-  var player2 = $('#player2').val();
-  if (!player1 || player1.val === ""){
-    player1 = "Player One";
+  function didWin (row, column) {
+    if (checkColumn(row, column) || checkRow(row, column) || 
+          checkDiagonalLowLeftHighRight(row, column) || 
+          checkDiagonalHighLeftLowRight(row, column)) {
+      alert("winrar "+ (currentPlayer === 1 ? player1symbol : player2symbol));
+      $("tfoot").hide();
+      $(".player-turn-panel").hide();
+      updateScore();
+    }
+    return false;
+  }
+
+  function replay () {
+    const result = window.confirm("Care to play again?");
+    if (result) {
+      // clear matrix and gameboard
+      for (var i = 0; i < COLUMNS; i++) {
+        for (var j = 0; j < ROWS; j++) {
+          gameboard[i][j]=0;
+          displayChip(j, i, ""); 
+        }
+      }
+      setFirstMover();
+      $("tfoot").show();
+      $(".player-turn-panel").show();
+    } else {
+      endginningMessage()
+    }
+  }
+
+  function endginningMessage () {
+    if (player1score > player2score) {
+      $('.scoreboard').html("<h1>" + player1name + " is the WINRAR</h1>");
+      $('.scoreboard').append("<h3>Final score. "+ player1name + " (" + player1symbol+ ")" + " with " + player1score + " to "+ player2name +" (" + player2symbol+ ")'s" + player2score +"</h3>")
+    } else if (player2score > player1score) {
+      $('.scoreboard').html("<h1>" + player2name + " is the WINRAR</h1>");
+      $('.scoreboard').append("<h3>Final score. "+ player2name + " (" + player2symbol+ ")" + " with " + player2score + " to "+ player1name +" (" + player1symbol+ ")'s" + player1score +"</h3>")
+    } else {
+      $('.scoreboard').html("<h1>Tie game. boooooo.</h1>")
+      $('.scoreboard').append("<h3>Even at " + player1score + " for (" + player1symbol+ ")" + " to " + player2score + " for (" + player2symbol+ ")" + "</h3>");
+    }
+  }
+
+  function updateScore () {
+    if (currentPlayer === 1) {
+      player1score++;
+      $('.player-one.player-score').html("Score: " + player1score);
+    } else {
+      player2score++;
+      $('.player-two.player-score').html("Score: " + player2score);
+    }
+    replay();
   } 
-  if (!player2 || player2 === "") {
-    player2 = "Player Two";
+
+  function setNames () {
+    var player1 = $('#player1').val();
+    var player2 = $('#player2').val();
+    if (!player1 || player1.val === ""){
+      player1 = "Player One";
+    } 
+    if (!player2 || player2 === "") {
+      player2 = "Player Two";
+    }
+    player1name = player1;
+    player2name = player2;
+    $(".player-one.player-name").html(player1 + " " + player1symbol);
+    $(".player-two.player-name").html(player2 + " " + player2symbol);
+    $(".player-one.player-score").html("Score: "+player1score);
+    $(".player-two.player-score").html("Score: "+player2score);
   }
-  player1name = player1;
-  player2name = player2;
-  $(".player-one.player-name").html(player1 + " " + player1symbol);
-  $(".player-two.player-name").html(player2 + " " + player2symbol);
-  $(".player-one.player-score").html("Score: "+player1score);
-  $(".player-two.player-score").html("Score: "+player2score);
-}
 
-var makeMove = function (player) {
-  if(player === 1) {
-    $('.player-turn').html(player1name + "\'s Turn");
-    $('.player-turn').append("<p>You are the " + player1symbol + "</p>");
-    currentPlayer = 1;
-  } else {
-    $('.player-turn').html(player2name + "\'s Turn");
-    $('.player-turn').append("<p>You are the " + player2symbol + "</p>");
-    currentPlayer = 2;
+  function makeMove (player) {
+    if(player === 1) {
+      $('.player-turn').html(player1name + "\'s Turn");
+      $('.player-turn').append("<p>You are the " + player1symbol + "</p>");
+      currentPlayer = 1;
+    } else {
+      $('.player-turn').html(player2name + "\'s Turn");
+      $('.player-turn').append("<p>You are the " + player2symbol + "</p>");
+      currentPlayer = 2;
+    }
   }
-}
 
-var nextTurn = function () {
-  currentPlayer = (currentPlayer === 1) ? 2 : 1;
-  makeMove(currentPlayer);
-}
+  function nextTurn () {
+    currentPlayer = (currentPlayer === 1) ? 2 : 1;
+    makeMove(currentPlayer);
+  }
 
-var setFirstMover = function () {
-  $('.player-turn-panel').append("<h5 class='random-message'>Randomly assigning first player...</h5>");
-  setTimeout(function() {
-    $('.player-turn-panel').append("<h5 class='random-message'>Assigned.</h5>");
-    makeMove(Math.floor(Math.random()*2) + 1)
-  }, 500);
-}
+  function setFirstMover () {
+    $('.player-turn-panel').append("<h5 class='random-message'>Randomly assigning first player...</h5>");
+    setTimeout(function() {
+      $('.player-turn-panel').append("<h5 class='random-message'>Assigned.</h5>");
+      makeMove(Math.floor(Math.random()*2) + 1)
+    }, 500);
+  }
 
-var reallyStartGame = function () {
-  setNames();
-  $('.game').show();
-  $('.player-info').hide();
-  setFirstMover();
-}
+  connect4.reallyStartGame = function () {
+    setNames();
+    $('.game').show();
+    $('.player-info').hide();
+    setFirstMover();
+  }
 
-var startGame = function () {
-  $('.player-info').show();
-  $('.intro').hide();
-}
+  connect4.startGame = function() {
+    $('.player-info').show();
+    $('.intro').hide();
+  }
+
+  return connect4;
+}());
+
 
 $(document).ready(function() {
   $('.intro').show();

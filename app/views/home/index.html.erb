@@ -3,7 +3,7 @@
 <section>
   <div class="intro">
     <h4>Would you like to play a new game?</h4>
-    <button onclick="startGame()">Yes?</button>
+    <button onclick="CONNECT4.startGame()">Yes?</button>
   </div>
 
   <div class="player-info">
@@ -14,7 +14,7 @@
       <input id="player2" type="text" placeholder="Player Two Name"/>
     </div>
     <div>
-      <button onclick="reallyStartGame()">Go!</button>
+      <button onclick="CONNECT4.reallyStartGame()">Go!</button>
     </div>
   </div>
 </section>
@@ -49,7 +49,7 @@
       <tfoot>
         <tr>
           <% @columns.times do |c| %>
-            <td><button id="col<%= c %>" onclick="placeChip(<%= c %>)">Push</button></td>
+            <td><button id="col<%= c %>" onclick="CONNECT4.placeChip(<%= c %>)">Push</button></td>
           <% end %>       
         </tr>
       </tfoot>
