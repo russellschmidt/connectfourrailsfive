@@ -121,9 +121,8 @@ var checkDiagonalHighLeftLowRight = function (row, column) {
   }
   if (c < 0) {c = 0;} else {c++;}
   if (r > ROWS) {r = ROWS - 1;} else { r--;}
-  console.log("starting r,c:", r, c)
 
-  // check the diagonal from the x- or y-intercept
+  // check the diagonal from the y-intercept or x-ceiling
   while(r > -1 && c < COLUMNS) {
     if (gameboard[c][r] === sym) {
       symbolCount++;
@@ -133,11 +132,9 @@ var checkDiagonalHighLeftLowRight = function (row, column) {
     } else {
       symbolCount = 0;
     }
-    console.log("next r,c:", r, c)
     r--;
     c++;
   }
-
   return false;
 }
 
