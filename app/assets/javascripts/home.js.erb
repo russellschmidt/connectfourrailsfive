@@ -81,41 +81,64 @@ var checkRow = function (row, column) {
 }
 
 var checkDiagonalLowLeftHighRight = function (row, column) {
+  var r = row;
+  var c = column;
   var symbolCount = 0;
   var sym = gameboard[column][row];
-  var r = 0;
-  var c = 0;
-  var keepCheckingFlag = true;
-  
-  for (var i = 0; i < COLUMNS; i++) {
-    for (var j = 0; j < ROWS; j++) {
-      r = j;
-      c = i;
-      while (keepCheckingFlag) {
-        if (gameboard[c][r] === sym) {
-          symbolCount++;
-          if (symbolCount >= 4) {
-            keepCheckingFlag = false;
-            return true;
-          }
-        } else {
-          symbolCount = 0;
-        }
 
-        if (r === ROWS || c === COLUMNS) {
-          keepCheckingFlag = false;
-        } else {
-          r++;
-          c++;
-        }
-      }
-    }
+  // hit the x or y axis
+  while (r > 0 && c > 0) {
+    r--;
+    c--;
   }
+  // check the diagonal from the x- or y-intercept
+  while (r < ROWS && c < COLUMNS) {
+    if (gameboard[c][r] === sym) {
+      symbolCount++;
+      if (symbolCount >= 4) {
+        return true;
+      }
+    } else {
+      symbolCount = 0;
+    }
+    r++;
+    c++;
+  }
+
   return false;
 }
 
 var checkDiagonalHighLeftLowRight = function (row, column) {
-  return false
+  var r = row;
+  var c = column;
+  var symbolCount = 0;
+  var sym = gameboard[column][row];
+  
+  // hit the x or y axis
+  while (r < ROWS && c > -1) {
+    r++;
+    c--;
+  }
+  if (c < 0) {c = 0;} else {c++;}
+  if (r > ROWS) {r = ROWS - 1;} else { r--;}
+  console.log("starting r,c:", r, c)
+
+  // check the diagonal from the x- or y-intercept
+  while(r > -1 && c < COLUMNS) {
+    if (gameboard[c][r] === sym) {
+      symbolCount++;
+      if (symbolCount >= 4) {
+        return true;
+      }
+    } else {
+      symbolCount = 0;
+    }
+    console.log("next r,c:", r, c)
+    r--;
+    c++;
+  }
+
+  return false;
 }
 
 var didWin = function(row, column) {
