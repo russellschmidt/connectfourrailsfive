@@ -1,28 +1,22 @@
-== README
+# Connect4Emoji
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+ConnectFour is a great children's game and every on the Earth loves it. But they do not love it enough.
 
-Things you may want to cover:
+That is where emoji come in. Whether it is language professors or the Emoji Movie, everyone knows that Emoji ("emoji") make everything better.
 
-* Ruby version
+Combining ConnectFour and Emoji... well, that pretty much is the greatest idea of all time.
 
-* System dependencies
+## The Project
+This is a Rails project that mostly uses JavaScript and was a response to a programming challenge I had whilst a student at <Bloc.io>. I initially made this in React and because it was a timed assignment and I hit a roadblock early I switched it out. I will return to make this a Node/React project. This, I swear.
 
-* Configuration
+### Dependencies
+See the Gemfile. Nothing extraordinary.
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Major:
+* Rails 4.2.5
+* Postgres pg 0.15
+* rails_12factor (for Heroku)
+* jQuery
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+
