@@ -7,14 +7,22 @@
   </div>
 
   <div class="player-info">
-    <div>
-      <input id="player1" type="text" placeholder="Player One Name"/>
+    <div class="player-one-info">
+      <div>
+        <input id="player1" type="text" placeholder="Player One Name"/>
+      </div>
+      <div>
+        <button onclick="CONNECT4.setPlayerOne()">Go!</button>
+      </div>
     </div>
-    <div>
-      <input id="player2" type="text" placeholder="Player Two Name"/>
-    </div>
-    <div>
-      <button onclick="CONNECT4.reallyStartGame()">Go!</button>
+
+    <div class="player-two-info">
+      <div>
+        <input id="player2" type="text" placeholder="Player Two Name"/>
+      </div>
+      <div>
+        <button onclick="CONNECT4.setPlayerTwo()">Go!</button>
+      </div>
     </div>
   </div>
 </section>
@@ -50,7 +58,7 @@
         <tr>
           <% @columns.times do |c| %>
             <td><button id="col<%= c %>" onclick="CONNECT4.placeChip(<%= c %>)">Push</button></td>
-          <% end %>       
+          <% end %>
         </tr>
       </tfoot>
     </table>

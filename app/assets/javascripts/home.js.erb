@@ -21,7 +21,6 @@ var CONNECT4 = (function(){
   const player2symbol = "😀";
 
 
-
   // functions
   connect4.placeChip = function(column) {
     var placedChip = false;
@@ -31,10 +30,10 @@ var CONNECT4 = (function(){
       if (gameboard[column][row] === 0) {
         if (currentPlayer === 1) {
           gameboard[column][row] = player1symbol;
-          displayChip(row, column, player1symbol);      
+          displayChip(row, column, player1symbol);
         } else {
           gameboard[column][row] = player2symbol;
-          displayChip(row, column, player2symbol); 
+          displayChip(row, column, player2symbol);
         }
         placedChip = true;
         setTimeout(function() {
@@ -117,7 +116,7 @@ var CONNECT4 = (function(){
     var c = column;
     var symbolCount = 0;
     var sym = gameboard[column][row];
-    
+
     // hit the x or y axis
     while (r < ROWS && c > -1) {
       r++;
@@ -143,8 +142,8 @@ var CONNECT4 = (function(){
   }
 
   function didWin (row, column) {
-    if (checkColumn(row, column) || checkRow(row, column) || 
-          checkDiagonalLowLeftHighRight(row, column) || 
+    if (checkColumn(row, column) || checkRow(row, column) ||
+          checkDiagonalLowLeftHighRight(row, column) ||
           checkDiagonalHighLeftLowRight(row, column)) {
       alert("winrar "+ (currentPlayer === 1 ? player1symbol : player2symbol));
       $("tfoot").hide();
@@ -161,7 +160,7 @@ var CONNECT4 = (function(){
       for (var i = 0; i < COLUMNS; i++) {
         for (var j = 0; j < ROWS; j++) {
           gameboard[i][j]=0;
-          displayChip(j, i, ""); 
+          displayChip(j, i, "");
         }
       }
       setFirstMover();
@@ -194,24 +193,8 @@ var CONNECT4 = (function(){
       $('.player-two.player-score').html("Score: " + player2score);
     }
     replay();
-  } 
-
-  function setNames () {
-    var player1 = $('#player1').val();
-    var player2 = $('#player2').val();
-    if (!player1 || player1.val === ""){
-      player1 = "Player One";
-    } 
-    if (!player2 || player2 === "") {
-      player2 = "Player Two";
-    }
-    player1name = player1;
-    player2name = player2;
-    $(".player-one.player-name").html(player1 + " " + player1symbol);
-    $(".player-two.player-name").html(player2 + " " + player2symbol);
-    $(".player-one.player-score").html("Score: "+player1score);
-    $(".player-two.player-score").html("Score: "+player2score);
   }
+
 
   function makeMove (player) {
     if(player === 1) {
@@ -238,15 +221,47 @@ var CONNECT4 = (function(){
     }, 500);
   }
 
-  connect4.reallyStartGame = function () {
-    setNames();
+  function setName (playerNumber) {
+    var player = null;
+    if (playerNumber === 1) {
+      player = $('#player1').val();
+      if (!player || player.val === ""){
+        player = "Player One";
+      }
+      player1name = player;
+      $(".player-one.player-name").html(player + " " + player1symbol);
+      $(".player-one.player-score").html("Score: "+player1score);
+    } else {
+      player = $('#player2').val();
+      if (!player || player.val === ""){
+        player = "Player Two";
+      }
+      player2name = player;
+      $(".player-two.player-name").html(player + " " + player2symbol);
+      $(".player-two.player-score").html("Score: "+player2score);
+    }
+  }
+
+  function reallyStartGame () {
     $('.game').show();
     $('.player-info').hide();
     setFirstMover();
   }
 
+  connect4.setPlayerTwo = function () {
+    setName(2);
+    reallyStartGame();
+  }
+
+  connect4.setPlayerOne = function () {
+    setName(1);
+    $('.player-one-info').hide();
+    $('.player-two-info').show();
+  }
+
   connect4.startGame = function() {
     $('.player-info').show();
+    $('.player-two-info').hide();
     $('.intro').hide();
   }
 
