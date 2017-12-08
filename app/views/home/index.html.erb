@@ -3,7 +3,7 @@
 <section>
   <div class="intro">
     <h4>Would you like to play a new game?</h4>
-    <button onclick="CONNECT4.startGame()">Yes?</button>
+    <button id="start-game">Yes?</button>
   </div>
 
   <div class="player-info">
@@ -12,7 +12,7 @@
         <input id="player1" type="text" placeholder="Player One Name"/>
       </div>
       <div>
-        <button class="action-button" onclick="CONNECT4.setPlayerOne()">Set player one!</button>
+        <button class="action-button" id="player-one-name">Set player one!</button>
       </div>
     </div>
 
@@ -21,8 +21,15 @@
         <input id="player2" type="text" placeholder="Player Two Name"/>
       </div>
       <div>
-        <button class="action-button" onclick="CONNECT4.setPlayerTwo()">Set player two!</button>
+        <button class="action-button" id="player-two-name">Set player two!</button>
       </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="emoji-picker">
+    <div class="">
     </div>
   </div>
 </section>

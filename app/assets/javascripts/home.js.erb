@@ -282,4 +282,9 @@ $(document).ready(function() {
   $('.intro').show();
   $('.game').hide();
   $('.player-info').hide();
+
+  $('#start-game').on('click', function() {CONNECT4.startGame()});
+  $('#player-one-name').on('click', function() {CONNECT4.setPlayerOne()});
+  $('#player-two-name').on('click', function() {CONNECT4.setPlayerTwo()});
+
 })
