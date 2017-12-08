@@ -13,11 +13,34 @@ section {
     float: left;
     width: 20%;
     margin: auto 10px;
-  }  
+  }
 }
 
 .clearfix {
   clear: both;
+}
+
+.emoji-flexbox-grid {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+
+.emoji-button {
+  width: 50px;
+  height: 50px;
+  margin: 3px;
+  padding: 7px 2px 0 2px;
+  font-size: 2rem;
+}
+
+.selected-emoji {
+  font-size: 6rem;
+  margin: 1rem;
+  text-align: center;
+
 }
 
 .game {

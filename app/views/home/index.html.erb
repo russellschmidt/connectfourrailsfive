@@ -28,8 +28,17 @@
 </section>
 
 <section>
-  <div class="emoji-picker">
-    <div class="">
+  <div class="emoji-picker" data-emojis="<%= @emojis %>">
+    <div class="selected-emoji"><p></p>
+    </div>
+    <div class="emoji-flexbox-grid">
+      <% @emojis.each_with_index do |emoji, index| %>
+        <div>
+          <button class="emoji-button" id="emoji-<%= index %>" data-emoji="<%= index %>">
+            <%= emoji %>
+          </button>
+        </div>
+      <% end %>
     </div>
   </div>
 </section>
